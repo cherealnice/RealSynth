@@ -116,10 +116,7 @@ export default class Keyboard extends PureComponent {
       wave,
       chorus,
     } = this
-    const chorusText = chorus ? ' on' : ' off'
-    const shiftOpacity = shift
-      ? { opacity: 1 }
-      : { opacity: 0.4 }
+    const shiftOpacity = { opacity: shift ? 1 : 0.4 }
 
     return (
       <div className='organ group'>
@@ -129,7 +126,7 @@ export default class Keyboard extends PureComponent {
         </button>
         <button className='chorus-button organ-options-button'
           onClick={_handleChorusChange}>
-            {"Chorus:" + chorusText}
+            {`Chorus: ${chorus ? 'on' : 'off'}`}
         </button>
         <button className='octave-button octave-down organ-options-button'
           onClick={_handleOctaveDown}>
