@@ -20,9 +20,9 @@ export default class Note {
   }
 
   updateOptions = (options, noteName) => {
-    this.oscillatorNode.type = options.wave
+    this.oscillatorNode.type = options.get('wave')
     this.oscillatorNode.detune.value =
-      options.chorus ? Math.floor( 30 * Math.random() ) - 15 : 0
+      options.get('chorus') ? Math.floor( 30 * Math.random() ) - 15 : 0
     this.oscillatorNode.frequency.value = TONES[noteName]
   }
 }

@@ -3,7 +3,7 @@ import Note from 'Utils/audioUtils/Note'
 
 const createNotes = function (props) {
   const noteName = props.noteName
-  const wave = props.options.wave
+  const wave = props.options.get('wave')
   const freq = TONES[noteName]
   const notes = []
   for (let i = 0; i < 4; i++) {

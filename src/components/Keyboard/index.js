@@ -102,7 +102,7 @@ export default class Keyboard extends PureComponent {
   }
 
   render = () => {
-    const { options } = this
+    const { options, keys } = this
     const chorusText = options.get('chorus') ? ' on' : ' off'
     const shiftOpacity = options.get('shift')
       ? { opacity: 1 }
@@ -131,6 +131,7 @@ export default class Keyboard extends PureComponent {
           {
             NOTES.map((noteName, i) => (
               <Key
+                keys={keys}
                 options={options}
                 key={`note_${noteName + octave}`}
                 index={i}
@@ -138,7 +139,7 @@ export default class Keyboard extends PureComponent {
               />
             ))
           }
-          <Key options={options} index={12} noteName={"C" + (octave + 1)} />
+          <Key keys={keys} options={options} index={12} noteName={"C" + (octave + 1)} />
         </ul>
 
       </div>
