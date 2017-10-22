@@ -1,11 +1,6 @@
-import { createStore } from 'redux'
-import defaultState from './defaultState';
+import { createStore, combineReducers } from 'redux'
+import reducers from './reducers'
 
-function store(state = defaultState, action) {
-  switch (action.type) {
-  default:
-    return state
-  }
-}
+const rootReducer = combineReducers(reducers)
 
-export default createStore(store);
+export default createStore(rootReducer)

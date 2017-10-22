@@ -1,3 +1,5 @@
-const App = (props) => h('h1', 'Hello, world!')
+import Keyboard from 'Components/Keyboard'
+
+const App = (props) => <Keyboard {...props} />
 
 export default App
