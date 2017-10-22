@@ -4,7 +4,7 @@ import ActionTypes from 'Store/ActionTypes'
 const defaultState = fromJS({
   chorus: false,
   wave: 'sine',
-  octave: 1,
+  octave: 5,
   shift: false,
 })
 

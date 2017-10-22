@@ -5,9 +5,7 @@ import helpers from './helpers'
 
 @withHelpers(helpers)
 export default class Key extends PureComponent {
-  getInitialState = () => ({
-    pressed: false
-  })
+  state = { pressed: false }
 
   componentDidMount = () => {
     this.noteInstances = this.props.createNotes(this.props)
@@ -22,28 +20,16 @@ export default class Key extends PureComponent {
 
   changeHandler = (keySet) => {
     const inKeys = keySet.has(this.props.noteName)
-    if (!!inKeys) {
-      this.noteInstances.forEach(note => note.start())
-      this.setState({ pressed: true })
-    } else {
-      this.noteInstances.forEach(note => note.stop())
-      this.setState({ pressed: false })
-    }
+    this.noteInstances.forEach(note => inKeys ? note.start() : note.stop())
+    this.setState({ pressed: inKeys })
   }
 
   render = () => {
-    const { props, state } = this;
-    let pressed = "";
-    let color;
-    const index = "_" + props.index;
-    if (state.pressed) {
-      pressed = "pressed"
-    }
-    if (props.noteName.length === 3) {
-      color = "black"
-    } else {
-      color = "white"
-    }
+    const { props, state } = this
+    const { index, noteName } = props;
+    const pressed = state.pressed ? 'pressed' : ''
+    const color = noteName.length === 3 ? 'black' : 'white'
+
     return (
       <li className={`key ${pressed} ${index} ${color}`} />
     )

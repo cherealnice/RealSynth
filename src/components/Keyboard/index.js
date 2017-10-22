@@ -13,6 +13,18 @@ export default class Keyboard extends PureComponent {
     return this.props.state.keys
   }
 
+  get octave() {
+    return this.options.get('octave')
+  }
+
+  get wave() {
+    return this.options.get('wave')
+  }
+
+  get shift() {
+    return this.options.get('shift')
+  }
+
   componentDidMount = () => {
     global.document.addEventListener('keydown', this._onKeyDown)
     global.document.addEventListener('keyup', this._onKeyUp)
@@ -23,34 +35,23 @@ export default class Keyboard extends PureComponent {
     global.document.removeEventListener('keyup', this._onKeyUp)
   }
 
-  _resetOptions = () => {
-    // var newOptions = root.OptionsStore.all();
-    // var wave = newOptions.wave;
-    // var chorus = newOptions.chorus;
-    // var octave = newOptions.octave;
-    // this.setState({
-      // wave: wave,
-      // chorus: chorus,
-      // octave: (octave)
-    // });
-  }
-
   _onKeyDown = (e) => {
-    if (this.options.get('shift')) {
+    const { updateOptions, options, onKeyChange, shift, octave } = this
+    if (shift) {
       if (e.keyCode === 16) {
-        this.updateOptions({ shift: false })
+        updateOptions({ shift: false })
       } else {
         e.preventDefault()
-        var key = KEY_CODES[e.keyCode]
+        let key = KEY_CODES[e.keyCode]
         if (key === 'C2') {
-          key = 'C' + (this.options.get('octave') + 1)
+          key = 'C' + (octave + 1)
         } else {
-          key = key + this.options.get('octave')
+          key = `${key}${octave}` 
         }
-        this.onKeyChange(true, key)
+        onKeyChange(true, key)
       }
     } else if (e.keyCode === 16) {
-      this.updateOptions({ shift: true })
+      updateOptions({ shift: true })
     }
   }
 
@@ -69,62 +70,74 @@ export default class Keyboard extends PureComponent {
   }
 
   _handleWaveChange = () => {
-    const idx = WAVES.indexOf(this.options.get('wave'))
+    const idx = WAVES.indexOf(this.wave)
     const newIdx = (idx + 1) % 4
     this.updateOptions({ wave: WAVES[newIdx] })
   }
 
   _handleChorusChange = () => {
-    this.updateOptions({ chorus: !this.options.get('chorus') })
+    this.updateOptions({ chorus: !this.chorus })
   }
 
   _handleOctaveUp = () => {
-    if (this.options.get('octave') <= 6) {
-      this.updateOptions({ octave: (this.options.get('octave') + 1) })
+    if (this.octave <= 6) {
+      this.updateOptions({ octave: (this.octave + 1) })
     }
   }
 
   _handleOctaveDown = () => {
     if (this.options.get('octave') >= 3) {
-      this.updateOptions({ octave: (this.options.get('octave') - 1) })
+      this.updateOptions({ octave: (this.octave - 1) })
     }
   }
 
   _onKeyUp = (e) => {
+    const { octave, onKeyChange } = this
     e.preventDefault()
     let key = KEY_CODES[e.keyCode]
     if (key === 'C2') {
-      key = 'C' + (this.options.get('octave') + 1)
+      key = 'C' + (octave + 1)
     } else {
-      key = key + this.options.get('octave')
+      key = key + octave
     }
-    this.onKeyChange(false, key)
+    onKeyChange(false, key)
   }
 
   render = () => {
-    const { options, keys } = this
-    const chorusText = options.get('chorus') ? ' on' : ' off'
-    const shiftOpacity = options.get('shift')
+    const {
+      options,
+      keys,
+      _handleWaveChange,
+      _handleChorusChange,
+      _handleOctaveDown,
+      _handleOctaveUp,
+      shift,
+      octave,
+      wave,
+      chorus,
+    } = this
+    const chorusText = chorus ? ' on' : ' off'
+    const shiftOpacity = shift
       ? { opacity: 1 }
       : { opacity: 0.4 }
-    const octave = options.get('octave')
+
     return (
       <div className='organ group'>
         <button className='wave-button organ-options-button'
-          onClick={this._handleWaveChange}>
-            {options.wave}
+          onClick={_handleWaveChange}>
+            {wave}
         </button>
         <button className='chorus-button organ-options-button'
-          onClick={this._handleChorusChange}>
+          onClick={_handleChorusChange}>
             {"Chorus:" + chorusText}
         </button>
         <button className='octave-button octave-down organ-options-button'
-          onClick={this._handleOctaveDown}>
+          onClick={_handleOctaveDown}>
             -
         </button>
         <p className="octave">{'OCTAVE: ' + (octave - 5)}</p>
         <button className='octave-button octave-up organ-options-button'
-          onClick={this._handleOctaveUp}>
+          onClick={_handleOctaveUp}>
             +
         </button>
         <ul style={shiftOpacity} className='keys group'>
@@ -139,9 +152,13 @@ export default class Keyboard extends PureComponent {
               />
             ))
           }
-          <Key keys={keys} options={options} index={12} noteName={"C" + (octave + 1)} />
+          <Key
+            keys={keys}
+            options={options}
+            index={12}
+            noteName={"C" + (octave + 1)}
+          />
         </ul>
-
       </div>
     )
   }
