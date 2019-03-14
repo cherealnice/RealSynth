@@ -1,6 +1,6 @@
-import { PureComponent, render } from 'dio.js'
+import React, { PureComponent } from 'react'
 import { compose } from 'ramda'
-import { withHelpers } from 'Utils/decorators/dioHelpers'
+import { withHelpers } from 'Utils/decorators/componentHelpers'
 import helpers from './helpers'
 
 @withHelpers(helpers)

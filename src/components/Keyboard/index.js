@@ -1,5 +1,6 @@
+import React from 'react';
 import { fromJS } from 'immutable';
-import { PureComponent } from 'dio.js'
+import { PureComponent } from 'react'
 import { KEY_CODES, NOTES, WAVES } from 'Utils/constants'
 import ActionTypes from 'Store/ActionTypes';
 
