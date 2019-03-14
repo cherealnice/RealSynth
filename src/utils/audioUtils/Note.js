@@ -5,18 +5,38 @@ const AudioContext = window.AudioContext || window.webkitAudioContext
 const ctx = new AudioContext()
 
 export default class Note {
-  constructor(freq, wave) {
+  constructor(freq, wave, filterEnvelope, level) {
     this.oscillatorNode = createOscillator(freq, wave, ctx)
     this.gainNode = createGainNode(ctx)
     this.oscillatorNode.connect(this.gainNode)
+    this.filterEnvelope = filterEnvelope;
+    this.level = level;
+  }
+
+  updateFilterEnvelope = filterEnvelope => this.filterEnvelope = filterEnvelope;
+
+  updateLevel = level => {
+    this.level = level
   }
 
   start = () => {
-    this.gainNode.gain.value = 0.4
+    const { gainNode, filterEnvelope, level } = this;
+
+    // Attack to level
+    gainNode.gain.setTargetAtTime(level, ctx.currentTime, filterEnvelope.get('attack'));
+
+    // After decay time, go to sustaion level
+    gainNode.gain.setTargetAtTime(
+      filterEnvelope.get('sustain'),
+      ctx.currentTime + filterEnvelope.get('attack'),
+      filterEnvelope.get('decay'),
+    )
   }
 
   stop = () => {
-    this.gainNode.gain.value = 0
+    const { gainNode, filterEnvelope } = this;
+
+    gainNode.gain.setTargetAtTime(0, ctx.currentTime, filterEnvelope.get('release'));
   }
 
   updateOptions = (options, noteName) => {

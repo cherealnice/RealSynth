@@ -1,8 +1,11 @@
+import { fromJS } from 'immutable';
 import { PureComponent } from 'dio.js'
 import { KEY_CODES, NOTES, WAVES } from 'Utils/constants'
 import ActionTypes from 'Store/ActionTypes';
 
 import Key from 'Components/Key'
+
+const level = 0.4;
 
 export default class Keyboard extends PureComponent {
   get options() {
@@ -23,6 +26,14 @@ export default class Keyboard extends PureComponent {
 
   get shift() {
     return this.options.get('shift')
+  }
+
+  get filterEnvelope() {
+    return this.options.get('filterEnvelope')
+  }
+
+  get level() {
+    return this.options.get('level')
   }
 
   componentDidMount = () => {
@@ -91,6 +102,18 @@ export default class Keyboard extends PureComponent {
     }
   }
 
+  _handleFilterEnvelopeChange = type => e => {
+    const filterEnvelope = this.filterEnvelope.set(type, Number(e.target.value))
+
+    this.updateOptions({ filterEnvelope })
+  }
+
+  _handleLevelChange = e => {
+    this.updateOptions({
+      level: e.target.value,
+    })
+  }
+
   _onKeyUp = (e) => {
     const { octave, onKeyChange } = this
     e.preventDefault()
@@ -111,10 +134,14 @@ export default class Keyboard extends PureComponent {
       _handleChorusChange,
       _handleOctaveDown,
       _handleOctaveUp,
+      _handleFilterEnvelopeChange,
+      _handleLevelChange,
       shift,
       octave,
       wave,
       chorus,
+      filterEnvelope,
+      level,
     } = this
     const shiftOpacity = { opacity: shift ? 1 : 0.4 }
 
@@ -137,6 +164,61 @@ export default class Keyboard extends PureComponent {
           onClick={_handleOctaveUp}>
             +
         </button>
+        <div>
+          Level:
+          <input
+            type="range"
+            value={level}
+            onChange={_handleLevelChange}
+            min={0}
+            max={1}
+            step={0.01}
+          />
+        </div>
+        <div>
+          Attack:
+          <input
+            type="range"
+            value={filterEnvelope.get('attack')}
+            onChange={_handleFilterEnvelopeChange('attack')}
+            min={0}
+            max={1}
+            step={0.001}
+          />
+        </div>
+        <div>
+          Decay:
+          <input
+            type="range"
+            value={filterEnvelope.get('decay')}
+            onChange={_handleFilterEnvelopeChange('decay')}
+            min={0}
+            max={2}
+            step={0.001}
+          />
+        </div>
+        <div>
+          Sustain:
+          <input
+            type="range"
+            value={filterEnvelope.get('sustain')}
+            onChange={_handleFilterEnvelopeChange('sustain')}
+            min={0}
+            max={1}
+            step={0.001}
+          />
+        </div>
+        <div>
+          Release:
+          <input
+            type="range"
+            value={filterEnvelope.get('release')}
+            onChange={_handleFilterEnvelopeChange('release')}
+            min={0}
+            max={0.5}
+            step={0.01}
+          />
+        </div>
         <ul style={shiftOpacity} className='keys group'>
           {
             NOTES.map((noteName, i) => (
@@ -146,6 +228,8 @@ export default class Keyboard extends PureComponent {
                 key={`note_${noteName + octave}`}
                 index={i}
                 noteName={noteName + octave}
+                filterEnvelope={filterEnvelope}
+                level={level}
               />
             ))
           }
@@ -154,6 +238,8 @@ export default class Keyboard extends PureComponent {
             options={options}
             index={12}
             noteName={"C" + (octave + 1)}
+            filterEnvelope={filterEnvelope}
+            level={level}
           />
         </ul>
       </div>

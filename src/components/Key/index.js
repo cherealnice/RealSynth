@@ -16,6 +16,17 @@ export default class Key extends PureComponent {
     this.noteInstances.forEach((note) => {
       note.updateOptions(newProps.options, newProps.noteName)
     })
+
+    if (this.props.level !== newProps.level) {
+      this.noteInstances.map(note => note.updateLevel(newProps.level))
+    }
+
+    if (
+      this.props.filterEnvelope.hashCode() !==
+      newProps.filterEnvelope.hashCode()
+    ) {
+      this.noteInstances.map(note => note.updateFilterEnvelope(newProps.filterEnvelope))
+    }
   }
 
   changeHandler = (keySet) => {

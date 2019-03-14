@@ -6,6 +6,13 @@ const defaultState = fromJS({
   wave: 'sine',
   octave: 5,
   shift: false,
+  level: 0.4,
+  filterEnvelope: {
+    attack: 0.015, 
+    decay: .0001,
+    sustain: 0.1,
+    release: 0.015,
+  },
 })
 
 export default function options(state = defaultState, action) {
