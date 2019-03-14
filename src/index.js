@@ -1,15 +1,11 @@
-import { createElement, render } from 'dio.js'
-
+import React from 'react';
+import { render } from 'react-dom'
 import App from './containers/App'
 import store from './store'
 
-const ConnectedApp = () => (
-  <App state={store.getState()} dispatch={store.dispatch} />
-)
-
 const renderApp = () => {
   render(
-    ConnectedApp,
+    <App state={store.getState()} dispatch={store.dispatch} />,
     document.getElementById('root'),
   )
 }

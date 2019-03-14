@@ -6,9 +6,12 @@
   "author": "Dan Cherouny",
   "license": "MIT",
   "dependencies": {
-    "dio.js": "^8.0.3",
+    "@emotion/core": "^10.0.9",
+    "@emotion/styled": "^10.0.9",
     "immutable": "^3.8.2",
     "ramda": "^0.25.0",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
     "redux": "^3.7.2"
   },
   "scripts": {

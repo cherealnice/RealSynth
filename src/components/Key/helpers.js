@@ -7,7 +7,7 @@ const createNotes = function (props) {
   const freq = TONES[noteName]
   const notes = []
   for (let i = 0; i < 4; i++) {
-    const note = new Note(freq, wave)
+    const note = new Note(freq, wave, props.filterEnvelope, props.level, props.ctx)
     notes.push(note)
   }
 
