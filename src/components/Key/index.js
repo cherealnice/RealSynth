@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { compose } from 'ramda'
 import { withHelpers } from 'Utils/decorators/componentHelpers'
 import helpers from './helpers'
+import { StyledKey } from './styles';
 
 @withHelpers(helpers)
 export default class Key extends PureComponent {
@@ -22,7 +23,7 @@ export default class Key extends PureComponent {
     }
 
     if (
-      this.props.filterEnvelope.hashCode() !==
+      this.props.filterEnvelope.hashCode() !== 
       newProps.filterEnvelope.hashCode()
     ) {
       this.noteInstances.map(note => note.updateFilterEnvelope(newProps.filterEnvelope))
@@ -42,7 +43,12 @@ export default class Key extends PureComponent {
     const color = noteName.length === 3 ? 'black' : 'white'
 
     return (
-      <li className={`key ${pressed} ${index} ${color}`} />
+      <StyledKey
+        color={color}
+        pressed={pressed}
+        pressed={pressed}
+        index={index}
+      />
     )
   }
 }

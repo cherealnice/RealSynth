@@ -1,16 +1,14 @@
 import { createGainNode, createOscillator } from './helpers'
 import { TONES } from 'Utils/constants'
 
-const AudioContext = window.AudioContext || window.webkitAudioContext
-const ctx = new AudioContext()
-
 export default class Note {
-  constructor(freq, wave, filterEnvelope, level) {
+  constructor(freq, wave, filterEnvelope, level, ctx) {
     this.oscillatorNode = createOscillator(freq, wave, ctx)
     this.gainNode = createGainNode(ctx)
     this.oscillatorNode.connect(this.gainNode)
     this.filterEnvelope = filterEnvelope;
     this.level = level;
+    this.ctx = ctx;
   }
 
   updateFilterEnvelope = filterEnvelope => this.filterEnvelope = filterEnvelope;
@@ -23,12 +21,12 @@ export default class Note {
     const { gainNode, filterEnvelope, level } = this;
 
     // Attack to level
-    gainNode.gain.setTargetAtTime(level, ctx.currentTime, filterEnvelope.get('attack'));
+    gainNode.gain.setTargetAtTime(level, this.ctx.currentTime, filterEnvelope.get('attack'));
 
     // After decay time, go to sustaion level
     gainNode.gain.setTargetAtTime(
       filterEnvelope.get('sustain'),
-      ctx.currentTime + filterEnvelope.get('attack'),
+      this.ctx.currentTime + filterEnvelope.get('attack'),
       filterEnvelope.get('decay'),
     )
   }
@@ -36,7 +34,7 @@ export default class Note {
   stop = () => {
     const { gainNode, filterEnvelope } = this;
 
-    gainNode.gain.setTargetAtTime(0, ctx.currentTime, filterEnvelope.get('release'));
+    gainNode.gain.setTargetAtTime(0, this.ctx.currentTime, filterEnvelope.get('release'));
   }
 
   updateOptions = (options, noteName) => {

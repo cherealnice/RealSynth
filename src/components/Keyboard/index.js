@@ -1,14 +1,29 @@
 import React from 'react';
 import { fromJS } from 'immutable';
 import { PureComponent } from 'react'
+import { prop } from 'ramda';
 import { KEY_CODES, NOTES, WAVES } from 'Utils/constants'
 import ActionTypes from 'Store/ActionTypes';
-
+import Envelope from 'Components/Envelope';
 import Key from 'Components/Key'
+import {
+	LeftControls,
+	Paragraph,
+	Button,
+	TopControls,
+	TopWrapper,
+	SplashWrapper,
+	Wrapper,
+	StyledUl,
+} from './styles';
 
-const level = 0.4;
+const AudioContext = window.AudioContext || window.webkitAudioContext
 
 export default class Keyboard extends PureComponent {
+  state = {
+    audioContext: null,
+  }
+
   get options() {
     return this.props.state.options
   }
@@ -23,6 +38,10 @@ export default class Keyboard extends PureComponent {
 
   get wave() {
     return this.options.get('wave')
+  }
+
+  get chorus() {
+    return this.options.get('chorus')
   }
 
   get shift() {
@@ -115,6 +134,12 @@ export default class Keyboard extends PureComponent {
     })
   }
 
+  _handlePlay = () => {
+    if (!this.state.audioContext) {
+      this.setState({ audioContext: new AudioContext() })
+    }
+  }
+
   _onKeyUp = (e) => {
     const { octave, onKeyChange } = this
     e.preventDefault()
@@ -127,123 +152,100 @@ export default class Keyboard extends PureComponent {
     onKeyChange(false, key)
   }
 
-  render = () => {
-    const {
-      options,
-      keys,
-      _handleWaveChange,
-      _handleChorusChange,
-      _handleOctaveDown,
-      _handleOctaveUp,
-      _handleFilterEnvelopeChange,
-      _handleLevelChange,
-      shift,
-      octave,
-      wave,
-      chorus,
-      filterEnvelope,
-      level,
-    } = this
-    const shiftOpacity = { opacity: shift ? 1 : 0.4 }
+	render = () => {
+		const {
+			options,
+			keys,
+			_handleWaveChange,
+			_handleChorusChange,
+			_handleOctaveDown,
+			_handleOctaveUp,
+			_handleFilterEnvelopeChange,
+			_handleLevelChange,
+			_handlePlay,
+			shift,
+			octave,
+			wave,
+			chorus,
+			filterEnvelope,
+			level,
+			state,
+		} = this
+		const shiftOpacity = shift ? 1 : 0.4;
 
-    return (
-      <div className='organ group'>
-        <button className='wave-button organ-options-button'
-          onClick={_handleWaveChange}>
-            {wave}
-        </button>
-        <button className='chorus-button organ-options-button'
-          onClick={_handleChorusChange}>
-            {`Chorus: ${chorus ? 'on' : 'off'}`}
-        </button>
-        <button className='octave-button octave-down organ-options-button'
-          onClick={_handleOctaveDown}>
-            -
-        </button>
-        <p className="octave">{'OCTAVE: ' + (octave - 5)}</p>
-        <button className='octave-button octave-up organ-options-button'
-          onClick={_handleOctaveUp}>
-            +
-        </button>
-        <div>
-          Level:
-          <input
-            type="range"
-            value={level}
-            onChange={_handleLevelChange}
-            min={0}
-            max={1}
-            step={0.01}
-          />
-        </div>
-        <div>
-          Attack:
-          <input
-            type="range"
-            value={filterEnvelope.get('attack')}
-            onChange={_handleFilterEnvelopeChange('attack')}
-            min={0}
-            max={1}
-            step={0.001}
-          />
-        </div>
-        <div>
-          Decay:
-          <input
-            type="range"
-            value={filterEnvelope.get('decay')}
-            onChange={_handleFilterEnvelopeChange('decay')}
-            min={0}
-            max={2}
-            step={0.001}
-          />
-        </div>
-        <div>
-          Sustain:
-          <input
-            type="range"
-            value={filterEnvelope.get('sustain')}
-            onChange={_handleFilterEnvelopeChange('sustain')}
-            min={0}
-            max={1}
-            step={0.001}
-          />
-        </div>
-        <div>
-          Release:
-          <input
-            type="range"
-            value={filterEnvelope.get('release')}
-            onChange={_handleFilterEnvelopeChange('release')}
-            min={0}
-            max={0.5}
-            step={0.01}
-          />
-        </div>
-        <ul style={shiftOpacity} className='keys group'>
-          {
-            NOTES.map((noteName, i) => (
-              <Key
-                keys={keys}
-                options={options}
-                key={`note_${noteName + octave}`}
-                index={i}
-                noteName={noteName + octave}
-                filterEnvelope={filterEnvelope}
-                level={level}
-              />
-            ))
-          }
-          <Key
-            keys={keys}
-            options={options}
-            index={12}
-            noteName={"C" + (octave + 1)}
-            filterEnvelope={filterEnvelope}
-            level={level}
-          />
-        </ul>
-      </div>
+		if (!state.audioContext) {
+			return (
+				<SplashWrapper>
+					<Button onClick={_handlePlay}>Let's Play Some Tunez</Button>
+				</SplashWrapper>
+		);
+		}
+
+		return (
+			<React.Fragment>
+        <TopWrapper>
+					<Paragraph margin="auto" height="40px">
+						SHIFT Key Engages Keyboard
+					</Paragraph>
+				</TopWrapper>
+				<Wrapper>
+					<div>
+						<TopControls>
+							<LeftControls>
+								<Button
+									min-width="90px"
+									onClick={_handleWaveChange}>
+									{wave}
+								</Button>
+								<Button
+									onClick={_handleChorusChange}>
+									{`Chorus: ${chorus ? 'on' : 'off'}`}
+								</Button>
+								<Button
+									onClick={_handleOctaveDown}>
+									-
+								</Button>
+								<Paragraph>
+									{'OCTAVE: ' + (octave - 5)}
+								</Paragraph>
+								<Button
+									onClick={_handleOctaveUp}>
+									+
+								</Button>
+							</LeftControls>
+							<Envelope
+								envelopeData={filterEnvelope}
+								onChange={_handleFilterEnvelopeChange}
+							/>
+						</TopControls>
+					</div>
+					<StyledUl opacity={shiftOpacity}>
+						{
+							NOTES.map((noteName, i) => (
+								<Key
+									keys={keys}
+									options={options}
+									key={`note_${noteName + octave}`}
+									index={i}
+									noteName={noteName + octave}
+									filterEnvelope={filterEnvelope}
+									level={level}
+									ctx={state.audioContext}
+								/>
+							))
+						}
+						<Key
+							keys={keys}
+							options={options}
+							index={12}
+							noteName={"C" + (octave + 1)}
+							filterEnvelope={filterEnvelope}
+							level={level}
+							ctx={state.audioContext}
+						/>
+					</StyledUl>
+				</Wrapper>
+			</React.Fragment>
     )
   }
 }

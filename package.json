@@ -6,6 +6,8 @@
   "author": "Dan Cherouny",
   "license": "MIT",
   "dependencies": {
+    "@emotion/core": "^10.0.9",
+    "@emotion/styled": "^10.0.9",
     "immutable": "^3.8.2",
     "ramda": "^0.25.0",
     "react": "^16.8.4",

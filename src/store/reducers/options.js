@@ -9,7 +9,7 @@ const defaultState = fromJS({
   level: 0.4,
   filterEnvelope: {
     attack: 0.015, 
-    decay: .0001,
+    decay: .01,
     sustain: 0.1,
     release: 0.015,
   },
