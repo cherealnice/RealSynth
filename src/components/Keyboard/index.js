@@ -6,6 +6,7 @@ import { KEY_CODES, NOTES, WAVES } from 'Utils/constants'
 import ActionTypes from 'Store/ActionTypes';
 import Envelope from 'Components/Envelope';
 import Key from 'Components/Key'
+import GlobalContext from '../../containers/GlobalContext';
 import {
 	LeftControls,
 	Paragraph,
@@ -17,12 +18,8 @@ import {
 	StyledUl,
 } from './styles';
 
-const AudioContext = window.AudioContext || window.webkitAudioContext
-
 export default class Keyboard extends PureComponent {
-  state = {
-    audioContext: null,
-  }
+  static contextType = GlobalContext;
 
   get options() {
     return this.props.state.options
@@ -135,8 +132,8 @@ export default class Keyboard extends PureComponent {
   }
 
   _handlePlay = () => {
-    if (!this.state.audioContext) {
-      this.setState({ audioContext: new AudioContext() })
+    if (!this.context.audioContext) {
+      this.context.createAudioContext();
     }
   }
 
@@ -169,11 +166,10 @@ export default class Keyboard extends PureComponent {
 			chorus,
 			filterEnvelope,
 			level,
-			state,
 		} = this
 		const shiftOpacity = shift ? 1 : 0.4;
 
-		if (!state.audioContext) {
+		if (!this.context.audioContext) {
 			return (
 				<SplashWrapper>
 					<Button onClick={_handlePlay}>Let's Play Some Tunez</Button>
@@ -230,7 +226,7 @@ export default class Keyboard extends PureComponent {
 									noteName={noteName + octave}
 									filterEnvelope={filterEnvelope}
 									level={level}
-									ctx={state.audioContext}
+									ctx={this.context.audioContext}
 								/>
 							))
 						}
@@ -241,7 +237,7 @@ export default class Keyboard extends PureComponent {
 							noteName={"C" + (octave + 1)}
 							filterEnvelope={filterEnvelope}
 							level={level}
-							ctx={state.audioContext}
+							ctx={this.context.audioContext}
 						/>
 					</StyledUl>
 				</Wrapper>
