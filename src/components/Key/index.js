@@ -1,54 +1,62 @@
-import React, { PureComponent } from 'react'
-import { compose } from 'ramda'
-import { withHelpers } from 'Utils/decorators/componentHelpers'
-import helpers from './helpers'
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { withHelpers } from 'Utils/decorators/componentHelpers';
+import helpers from './helpers';
 import { StyledKey } from './styles';
 
 @withHelpers(helpers)
 export default class Key extends PureComponent {
-  state = { pressed: false }
+  static propTypes = {
+    createNotes: PropTypes.func.isRequired,
+    keys: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    level: PropTypes.number.isRequired,
+    filterEnvelope: PropTypes.shape().isRequired,
+    noteName: PropTypes.string.isRequired,
+  };
+
+  state = { pressed: false };
 
   componentDidMount = () => {
-    this.noteInstances = this.props.createNotes(this.props)
-  }
+    const { createNotes } = this.props;
 
-  componentWillReceiveProps = (newProps) => {
-    if (this.props.keys !== newProps.keys) this.changeHandler(newProps.keys)
-    this.noteInstances.forEach((note) => {
-      note.updateOptions(newProps.options, newProps.noteName)
-    })
+    this.noteInstances = createNotes(this.props);
+  };
 
-    if (this.props.level !== newProps.level) {
-      this.noteInstances.map(note => note.updateLevel(newProps.level))
+  componentWillReceiveProps = newProps => {
+    const { noteInstances, changeHandler } = this;
+    const { keys, level, filterEnvelope } = this.props;
+
+    if (keys !== newProps.keys) changeHandler(newProps.keys);
+    noteInstances.forEach(note => {
+      note.updateOptions(newProps.options, newProps.noteName);
+    });
+
+    if (level !== newProps.level) {
+      noteInstances.map(note => note.updateLevel(newProps.level));
     }
 
-    if (
-      this.props.filterEnvelope.hashCode() !== 
-      newProps.filterEnvelope.hashCode()
-    ) {
-      this.noteInstances.map(note => note.updateFilterEnvelope(newProps.filterEnvelope))
+    if (filterEnvelope.hashCode() !== newProps.filterEnvelope.hashCode()) {
+      noteInstances.map(note =>
+        note.updateFilterEnvelope(newProps.filterEnvelope),
+      );
     }
-  }
+  };
 
-  changeHandler = (keySet) => {
-    const inKeys = keySet.has(this.props.noteName)
-    this.noteInstances.forEach(note => inKeys ? note.start() : note.stop())
-    this.setState({ pressed: inKeys })
-  }
+  changeHandler = keySet => {
+    const { noteName } = this.props;
+    const { noteInstances } = this;
+    const inKeys = keySet.has(noteName);
+
+    noteInstances.forEach(note => (inKeys ? note.start() : note.stop()));
+    this.setState({ pressed: inKeys });
+  };
 
   render = () => {
-    const { props, state } = this
+    const { props, state } = this;
     const { index, noteName } = props;
-    const pressed = state.pressed ? 'pressed' : ''
-    const color = noteName.length === 3 ? 'black' : 'white'
+    const pressed = state.pressed ? 'pressed' : '';
+    const color = noteName.length === 3 ? 'black' : 'white';
 
-    return (
-      <StyledKey
-        color={color}
-        pressed={pressed}
-        pressed={pressed}
-        index={index}
-      />
-    )
-  }
+    return <StyledKey color={color} pressed={pressed} index={index} />;
+  };
 }

@@ -1,12 +1,12 @@
-import React, { useState, createContext } from 'react';
-import { Global } from '@emotion/core'
-import Keyboard from 'Components/Keyboard'
+import React, { useState } from 'react';
+import { Global } from '@emotion/core';
+import Keyboard from 'Components/Keyboard';
 import globalStyles from './styles';
 import GlobalContext, { defaultAudioContext } from './GlobalContext';
 
-const AudioContext = window.AudioContext || window.webkitAudioContext
+const AudioContext = window.AudioContext || window.webkitAudioContext;
 
-const App = (props) => {
+const App = props => {
   const [audioContext, setAudioContext] = useState(defaultAudioContext);
   const createAudioContext = () => setAudioContext(new AudioContext());
 
@@ -20,4 +20,4 @@ const App = (props) => {
   );
 };
 
-export default App
+export default App;

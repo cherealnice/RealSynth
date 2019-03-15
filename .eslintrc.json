@@ -1,0 +1,7 @@
+{
+  "extends": ["inturn"],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": "error"
+  }
+}

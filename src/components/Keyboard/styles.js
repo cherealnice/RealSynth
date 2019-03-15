@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 import { propOr, prop } from 'ramda';
 
 export const LeftControls = styled('div')`
@@ -27,7 +27,7 @@ export const Button = styled('button')`
   border: 1px solid grey;
   display: block;
   min-width: ${propOr('auto', 'min-width')};
-`
+`;
 
 export const TopControls = styled('div')`
   display: flex;

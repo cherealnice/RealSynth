@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
 const Wrapper = styled('div')`
@@ -17,13 +18,11 @@ const max = {
   release: 1,
 };
 
-export default ({ envelopeData, onChange }) => (
+const Envelope = ({ envelopeData, onChange }) => (
   <Wrapper>
     {['attack', 'decay', 'sustain', 'release'].map(type => (
       <div key={type}>
-        <Label htmlFor="release">
-          {type.toUpperCase()}
-        </Label>
+        <Label htmlFor="release">{type.toUpperCase()}</Label>
         <input
           name={type}
           type="range"
@@ -37,3 +36,15 @@ export default ({ envelopeData, onChange }) => (
     ))}
   </Wrapper>
 );
+
+Envelope.propTypes = {
+  envelopeData: PropTypes.shape({
+    attack: PropTypes.number,
+    decay: PropTypes.number,
+    sustain: PropTypes.number,
+    release: PropTypes.number,
+  }).isRequired,
+  onChange: PropTypes.func.isRequired,
+};
+
+export default Envelope;
