@@ -3,6 +3,7 @@ const webpack = require('webpack')
 
 const APP_DIR = path.resolve(__dirname, 'src')
 const OUT_DIR = path.resolve(__dirname, 'dist')
+const isDev = process.env.NODE_ENV === 'development';
 
 module.exports = {
   entry: APP_DIR + '/index.js',
@@ -15,7 +16,7 @@ module.exports = {
     compress: true,
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    isDev && new webpack.HotModuleReplacementPlugin()
   ],
   module: {
     loaders: [
