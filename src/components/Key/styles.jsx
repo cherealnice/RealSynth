@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 
 const whiteKeyWidth = 70;
 const blackKeyWidth = 50;

@@ -1,7 +1,7 @@
 import { TONES } from 'Utils/constants'
 import Note from 'Utils/audioUtils/Note'
 
-const createNotes = function (props) {
+export function createNotes(props) {
   const noteName = props.noteName
   const wave = props.options.get('wave')
   const freq = TONES[noteName]
@@ -12,8 +12,4 @@ const createNotes = function (props) {
   }
 
   return notes
-}
-
-export default {
-  createNotes,
 }

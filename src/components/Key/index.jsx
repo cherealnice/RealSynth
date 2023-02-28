@@ -1,15 +1,12 @@
 import React, { PureComponent } from 'react'
-import { compose } from 'ramda'
-import { withHelpers } from 'Utils/decorators/componentHelpers'
-import helpers from './helpers'
 import { StyledKey } from './styles';
+import { createNotes } from './helpers';
 
-@withHelpers(helpers)
 export default class Key extends PureComponent {
   state = { pressed: false }
 
   componentDidMount = () => {
-    this.noteInstances = this.props.createNotes(this.props)
+    this.noteInstances = createNotes(this.props)
   }
 
   componentWillReceiveProps = (newProps) => {
@@ -45,7 +42,6 @@ export default class Key extends PureComponent {
     return (
       <StyledKey
         color={color}
-        pressed={pressed}
         pressed={pressed}
         index={index}
       />

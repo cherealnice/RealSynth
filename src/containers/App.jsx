@@ -1,8 +1,8 @@
-import React, { useState, createContext } from 'react';
-import { Global } from '@emotion/core'
-import Keyboard from 'Components/Keyboard'
+import React, { useState } from 'react';
+import { Global } from '@emotion/react'
+import Keyboard from 'Components/Keyboard/index.jsx'
 import globalStyles from './styles';
-import GlobalContext, { defaultAudioContext } from './GlobalContext';
+import GlobalContext, { defaultAudioContext } from './GlobalContext.jsx';
 
 const AudioContext = window.AudioContext || window.webkitAudioContext
 

@@ -1,4 +1,4 @@
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 
 export default css`
   html, body, ul, li, div, p, h1, h3, button {

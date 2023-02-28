@@ -4,9 +4,9 @@ import { PureComponent } from 'react'
 import { prop } from 'ramda';
 import { KEY_CODES, NOTES, WAVES } from 'Utils/constants'
 import ActionTypes from 'Store/ActionTypes';
-import Envelope from 'Components/Envelope';
-import Key from 'Components/Key'
-import GlobalContext from '../../containers/GlobalContext';
+import Envelope from 'Components/Envelope.jsx';
+import Key from 'Components/Key/index.jsx'
+import GlobalContext from '../../containers/GlobalContext.jsx';
 import {
 	LeftControls,
 	Paragraph,
@@ -16,7 +16,7 @@ import {
 	SplashWrapper,
 	Wrapper,
 	StyledUl,
-} from './styles';
+} from './styles.jsx';
 
 export default class Keyboard extends PureComponent {
   static contextType = GlobalContext;
@@ -54,13 +54,13 @@ export default class Keyboard extends PureComponent {
   }
 
   componentDidMount = () => {
-    global.document.addEventListener('keydown', this._onKeyDown)
-    global.document.addEventListener('keyup', this._onKeyUp)
+    document.addEventListener('keydown', this._onKeyDown)
+    document.addEventListener('keyup', this._onKeyUp)
   }
 
   componentWillUnmount = () => {
-    global.document.removeEventListener('keydown', this._onKeyDown)
-    global.document.removeEventListener('keyup', this._onKeyUp)
+    document.removeEventListener('keydown', this._onKeyDown)
+    document.removeEventListener('keyup', this._onKeyUp)
   }
 
   _onKeyDown = (e) => {
