@@ -64,13 +64,18 @@ export default function Key({
 
   const color = noteName.length === 3 ? 'black' : 'white';
 
+  // TODO: find a better way to determine this
+  const isMobile = window.innerWidth < 1200;
+
   return (
     <StyledKey
       color={color}
       pressed={pressed}
       index={index}
-      onMouseDown={onKeyPressed(noteName, !pressed)}
-      onMouseUp={onKeyPressed(noteName, !pressed)}
+      onMouseDown={isMobile ? undefined : onKeyPressed(noteName, true)}
+      onMouseUp={isMobile ? undefined : onKeyPressed(noteName, false)}
+      onTouchStart={onKeyPressed(noteName, true)}
+      onTouchEnd={onKeyPressed(noteName, false)}
     >
       {INDEX_TO_KEYBOARD_KEY[index]}
     </StyledKey>

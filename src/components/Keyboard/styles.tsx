@@ -52,6 +52,7 @@ export const Wrapper = styled('div')`
   background: red;
   border: 2px solid black;
   border-radius: 5px;
+  user-select: none;
 `;
 
 export const StyledUl = styled.ul<{ opacity: number }>`
