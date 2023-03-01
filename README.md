@@ -1,6 +1,6 @@
 # React Synthesizer
 
-[Live Demo](https://cherealnice.github.io/RealSynth/)
+[Live Demo](https://realsynth.dancherouny.com/)
 
 A web-based keyboard implemented in React.
 
