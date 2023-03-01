@@ -1,5 +1,5 @@
-import styled from '@emotion/styled'
-import { propOr, prop } from 'ramda';
+import styled from '@emotion/styled';
+import { prop, propOr } from 'ramda';
 
 export const LeftControls = styled('div')`
   display: flex;
@@ -7,7 +7,7 @@ export const LeftControls = styled('div')`
   max-height: 50px;
 `;
 
-export const Paragraph = styled('p')`
+export const Paragraph = styled.p<{ margin?: string; height?: string }>`
   width: 624px;
   text-align: center;
   background: black;
@@ -15,38 +15,33 @@ export const Paragraph = styled('p')`
   color: green;
   border: 2px solid grey;
   box-sizing: border-box;
-  padding-top: 10px;
+  padding: 10px 5px;
   height: ${propOr('auto', 'height')};
   margin: ${propOr('none', 'margin')};
 `;
 
-export const Button = styled('button')`
+export const Button = styled.button`
   background: black;
   padding: 5px;
   cursor: pointer;
   border: 1px solid grey;
   display: block;
   min-width: ${propOr('auto', 'min-width')};
-`
+
+  :hover {
+    filter: invert(100%);
+  }
+`;
 
 export const TopControls = styled('div')`
   display: flex;
   justify-content: space-between;
 `;
 
-export const BottomControls = styled('div')`
-  margin-left: 8px;
-  margin-top: -30px;
-`;
-
-export const TopWrapper = styled('div')`
-  margin: 50px auto;
-`;
-
 export const SplashWrapper = styled('div')`
-  display: flex;
+  display: grid;
+  grid-row-gap: 5px;
   justify-content: center;
-  margin-top: 100px;
 `;
 
 export const Wrapper = styled('div')`
@@ -59,8 +54,8 @@ export const Wrapper = styled('div')`
   border-radius: 5px;
 `;
 
-export const StyledUl = styled('ul')`
-  opacity: ${prop('shiftOpacity')};
+export const StyledUl = styled.ul<{ opacity: number }>`
+  opacity: ${prop('opacity')};
   margin: auto;
   width: 560px;
   position: relative;

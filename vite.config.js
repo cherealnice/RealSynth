@@ -1,12 +1,12 @@
 import { defineConfig } from 'vite';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import react from '@vitejs/plugin-react';
-import path from "path";
+import path from 'path';
 
 export default defineConfig({
   build: {
     // Relative to the root
-    outDir: '../dist',
+    outDir: 'dist',
   },
   plugins: [
     react({
@@ -16,7 +16,7 @@ export default defineConfig({
     createHtmlPlugin({
       inject: {
         data: {
-          title: "Real Synth",
+          title: 'Real Synth',
         },
       },
     }),
@@ -26,6 +26,6 @@ export default defineConfig({
       Components: path.resolve(__dirname, 'src/components'),
       Utils: path.resolve(__dirname, 'src/utils'),
       Store: path.resolve(__dirname, 'src/store'),
-    }
+    },
   },
 });

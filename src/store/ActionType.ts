@@ -1,0 +1,4 @@
+export enum ActionType {
+  UPDATE_OPTIONS = 'UPDATE_OPTIONS',
+  KEY_STATE_CHANGE = 'KEY_STATE_CHANGE',
+}

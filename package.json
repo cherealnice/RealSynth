@@ -2,7 +2,7 @@
   "name": "real-synth",
   "version": "2.0.0",
   "description": "Web-Based Synthesizer",
-  "main": "src/index.jsx",
+  "main": "src/index.tsx",
   "author": "Dan Cherouny",
   "type": "module",
   "license": "MIT",
@@ -23,7 +23,13 @@
     "cz": "git cz"
   },
   "devDependencies": {
+    "@types/ramda": "^0.28.23",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@types/react-router": "^5.1.20",
     "@vitejs/plugin-react": "^3.1.0",
+    "prettier": "^2.8.4",
+    "typescript": "^4.9.5",
     "vite": "^4.1.4",
     "vite-plugin-html": "^3.2.0"
   }

@@ -2,15 +2,21 @@
 
 [Live Demo](https://cherealnice.github.io/RealSynth/)
 
-A web-based keyboard implementing ReactJS.
+A web-based keyboard implemented in React.
 
 ### Features
 
-This synthesizer uses the Web Audio API to allow you to play in real-time, and also edit attributes of the sound.  The keyboard is only active after SHIFT lock is pressed, and disabled after another SHIFT key press.
+This synthesizer uses the Web Audio API to allow you to play in real-time, and also edit attributes of the sound.
+The keyboard is only active after the ENABLE KEYBOARD button is pressed,
+and disabled after the button is pressed again.
+
+This project is build using Vite.
 
 ### React Components
 
-* Organ
+* App
+* Keyboard
+* Envelope
 * Key
 
 ### Editable Attributes
@@ -37,5 +43,5 @@ This synthesizer uses the Web Audio API to allow you to play in real-time, and a
 * Download this repository
 * yarn
 * yarn start
-* Open localhost:1234 in browser
+* Open localhost in your browser
 * Jam out on some funky tunes!
