@@ -1,7 +1,7 @@
 {
   "name": "real-synth",
   "version": "2.0.0",
-  "description": "Web-Based Synthesizer",
+  "description": "A Web Based Synthesizer",
   "main": "src/index.tsx",
   "author": "Dan Cherouny",
   "type": "module",
@@ -10,7 +10,6 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "immutable": "^4.2.4",
-    "inturn-conventional-changelog": "0.0.2",
     "ramda": "^0.28.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -19,13 +18,12 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite serve",
-    "preview": "vite preview",
-    "cz": "git cz"
+    "preview": "vite preview"
   },
   "devDependencies": {
     "@types/ramda": "^0.28.23",
-    "@types/react": "^18.0.28",
-    "@types/react-dom": "^18.0.11",
+    "@types/react": "^18.2.6",
+    "@types/react-dom": "^18.2.4",
     "@types/react-router": "^5.1.20",
     "@vitejs/plugin-react": "^3.1.0",
     "prettier": "^2.8.4",
