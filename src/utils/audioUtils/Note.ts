@@ -40,7 +40,7 @@ export default class Note {
       filterEnvelope.attack
     );
 
-    // After decay time, go to sustaion level
+    // After decay time, go to sustain level
     setTimeout(() => {
       if (gainNode.gain.value > 0) {
         gainNode.gain.setTargetAtTime(

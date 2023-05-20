@@ -31,11 +31,11 @@ This project is build using Vite.
 
 ##### Octave
 
-* Effects AudioContext Osillator #frequency, referencing a global object which maps frequencies to note values
+* Affects AudioContext Oscillator #frequency, referencing a global object which maps frequencies to note values
 
 ##### ADSR Envelope
 
-* Effects AudioContext level over time
+* Affects AudioContext level over time
 
 
 ### How to Run This Code
